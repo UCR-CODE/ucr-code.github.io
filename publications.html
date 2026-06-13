@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Publications – Computational Optics and Displays</title>
+<meta name="description" content="Publications from the Computational Optics and Displays lab at UC Riverside.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Public+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#16191f;
+  --muted:#5b6471;
+  --paper:#fcfcfb;
+  --line:#e5e7ea;
+  --accent:#0a3d91;        /* UCR blue, deepened for text use */
+  --gold:#f5a800;          /* UCR gold, used sparingly */
+  --spectrum:linear-gradient(90deg,#6c4ce0 0%,#2f6bdf 28%,#1fa97a 55%,#e8a13a 78%,#d65543 100%);
+  --radius:10px;
+  --maxw:1080px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:"Public Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  font-size:16.5px;line-height:1.65;
+  color:var(--ink);background:var(--paper);
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,.brand,.p-name{font-family:"Space Grotesk","Public Sans",sans-serif}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+a:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:2px}
+img{display:block;max-width:100%}
+.container{max-width:var(--maxw);margin:0 auto;padding:0 24px}
+.skip{position:absolute;left:-9999px;top:0;background:var(--ink);color:#fff;padding:10px 16px;z-index:50}
+.skip:focus{left:12px;top:12px}
+
+/* ---------- Header ---------- */
+.site-head{border-bottom:1px solid var(--line);background:rgba(252,252,251,.92);backdrop-filter:blur(6px);position:sticky;top:0;z-index:20}
+.site-head .container{display:flex;align-items:center;justify-content:space-between;gap:20px;height:64px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:600;font-size:17px;letter-spacing:-.01em;color:var(--ink)}
+.brand:hover{text-decoration:none}
+.brand svg{flex:none}
+.main-nav{display:flex;gap:26px;flex-wrap:wrap}
+.main-nav a{color:var(--muted);font-size:14.5px;font-weight:500;padding:4px 0;position:relative}
+.main-nav a:hover{color:var(--ink);text-decoration:none}
+.main-nav a.active{color:var(--ink)}
+.main-nav a.active::after{content:"";position:absolute;left:0;right:0;bottom:-2px;height:2px;background:var(--spectrum);border-radius:2px}
+
+/* ---------- Hero ---------- */
+.hero{padding:84px 0 56px}
+.eyebrow{font-size:12px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:18px}
+.hero h1{font-size:clamp(44px,7vw,76px);font-weight:600;letter-spacing:-.025em;line-height:1.02;margin-bottom:22px}
+.lede{font-size:20px;line-height:1.6;color:#373d47;max-width:58ch}
+.jump{display:flex;gap:10px;flex-wrap:wrap;margin-top:34px}
+.jump a{font-size:14px;font-weight:500;color:var(--ink);border:1px solid var(--line);border-radius:999px;padding:8px 18px;transition:border-color .25s,color .25s}
+.jump a:hover{border-color:var(--accent);color:var(--accent);text-decoration:none}
+
+/* ---------- Section scaffolding ---------- */
+.section{padding:56px 0}
+.section-head{font-size:13px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:30px;display:flex;align-items:center;gap:14px}
+.section-head::after{content:"";flex:1;height:1px;background:var(--line)}
+hr.spectrum{border:0;height:2px;background:var(--spectrum);opacity:.45;border-radius:2px;margin:0}
+
+/* ---------- Overview grid ---------- */
+.people-grid{list-style:none;display:grid;grid-template-columns:repeat(auto-fill,minmax(168px,1fr));gap:30px 26px}
+.person-card{display:block;color:var(--ink)}
+.person-card:hover{text-decoration:none}
+.person-card img{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:var(--radius);border:1px solid var(--line);filter:saturate(.82);transition:filter .35s,transform .35s}
+.person-card:hover img{filter:saturate(1.05);transform:translateY(-2px)}
+.p-name{display:inline;font-size:16.5px;font-weight:600;letter-spacing:-.01em;background-image:var(--spectrum);background-repeat:no-repeat;background-position:0 100%;background-size:0% 2px;transition:background-size .35s}
+.person-card:hover .p-name{background-size:100% 2px}
+.p-meta{margin-top:12px;line-height:1.45}
+.p-role{display:block;font-size:13px;color:var(--muted);margin-top:3px}
+
+/* ---------- Join us ---------- */
+.join{background:#f6f7f5;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.join h2{font-size:clamp(26px,3.4vw,34px);font-weight:600;letter-spacing:-.015em;margin-bottom:14px}
+.join > .container > p{max-width:62ch;color:#373d47}
+.join-list{list-style:none;counter-reset:join;display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:34px;margin-top:42px}
+.join-list li{counter-increment:join;border-top:2px solid var(--ink);padding-top:18px;position:relative}
+.join-list li::before{content:counter(join);font-family:"Space Grotesk",sans-serif;font-weight:600;font-size:15px;color:var(--paper);background:var(--ink);width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;position:absolute;top:-15px;left:0}
+.join-list h3{font-size:19px;font-weight:600;letter-spacing:-.01em;margin:10px 0 10px}
+.join-list p{font-size:15px;color:#3c4350}
+.join-list p + p{margin-top:10px}
+.join-note{font-size:13.5px;color:var(--muted);margin-top:36px;max-width:70ch}
+
+/* ---------- Profiles ---------- */
+.profile{display:grid;grid-template-columns:248px 1fr;gap:48px;padding:56px 0;align-items:start}
+.profile-media img{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:var(--radius);border:1px solid var(--line)}
+.links{list-style:none;margin-top:18px}
+.links a{display:inline-block;font-size:14px;font-weight:500;padding:3.5px 0;color:var(--accent)}
+.links a::after{content:"↗";font-size:11px;margin-left:5px;opacity:0;transition:opacity .2s}
+.links a:hover::after{opacity:.8}
+.profile-body h3{font-size:clamp(26px,3.2vw,32px);font-weight:600;letter-spacing:-.018em;scroll-margin-top:90px}
+.role-tag{display:inline-block;font-size:12px;font-weight:600;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);margin:8px 0 22px;padding-bottom:5px;background-image:var(--spectrum);background-repeat:no-repeat;background-position:0 100%;background-size:44px 2px}
+.profile-body p{max-width:66ch;color:#2c313a}
+.profile-body p + p{margin-top:14px}
+.todo{color:var(--muted)}
+
+/* ---------- Footer ---------- */
+.site-foot{border-top:1px solid var(--line);margin-top:40px}
+.site-foot .container{display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;padding-top:30px;padding-bottom:38px;font-size:13.5px;color:var(--muted)}
+.site-foot a{color:var(--muted)}
+.site-foot a:hover{color:var(--ink)}
+.foot-links{display:flex;gap:22px}
+
+@media (max-width:760px){
+  .hero{padding:56px 0 40px}
+  .profile{grid-template-columns:1fr;gap:26px;padding:44px 0}
+  .profile-media img{max-width:280px}
+  .site-head .container{height:auto;padding-top:12px;padding-bottom:12px;flex-wrap:wrap}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{transition:none!important}
+}
+
+/* ---------- Publications ---------- */
+.pubs-wrap{padding-bottom:24px}
+.pub-note{font-size:14px;color:var(--muted);margin-top:14px}
+.year-block{margin-top:44px}
+.year-block:first-of-type{margin-top:8px}
+.pub{padding:28px 0;border-top:1px solid var(--line)}
+.year-block .pub:first-of-type{border-top:0;padding-top:18px}
+.pub-title{font-size:20px;font-weight:600;letter-spacing:-.012em;line-height:1.35}
+.pub-title a{color:var(--ink);background-image:var(--spectrum);background-repeat:no-repeat;background-position:0 100%;background-size:0% 2px;transition:background-size .35s,color .2s}
+.pub-title a:hover{color:var(--accent);text-decoration:none;background-size:100% 2px}
+.pub-authors{margin-top:9px;font-size:15px;color:#3c4350;max-width:74ch}
+.lab-member{color:var(--ink);font-weight:500;background-image:var(--spectrum);background-repeat:no-repeat;background-position:0 100%;background-size:100% 1.5px;padding-bottom:1px}
+.pub-meta{margin-top:12px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.venue{font-size:11.5px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;border:1px solid var(--line);border-radius:999px;padding:3.5px 11px;color:var(--muted)}
+.venue.conf{border-color:#ecd9a8;background:#fdf7e7;color:#7a5d10}
+.pub-link{font-size:14px;font-weight:500}
+.pub-link::after{content:"↗";font-size:11px;margin-left:5px}
+
+.venue-full{font-size:13px;color:var(--muted)}
+
+</style>
+</head>
+<body>
+<a class="skip" href="#main-content">Skip to content</a>
+
+<header class="site-head">
+  <div class="container">
+    <a class="brand" href="#">
+      <!-- aperture mark -->
+      <svg width="26" height="26" viewBox="0 0 26 26" fill="none" aria-hidden="true">
+        <defs>
+          <linearGradient id="spec" x1="0" y1="0" x2="26" y2="26" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stop-color="#6c4ce0"/><stop offset=".35" stop-color="#2f6bdf"/>
+            <stop offset=".65" stop-color="#1fa97a"/><stop offset="1" stop-color="#e8a13a"/>
+          </linearGradient>
+        </defs>
+        <circle cx="13" cy="13" r="11.5" stroke="url(#spec)" stroke-width="2.4"/>
+        <circle cx="13" cy="13" r="4.5" fill="var(--ink)"/>
+      </svg>
+      Computational Optics and Displays
+    </a>
+    <nav class="main-nav" aria-label="Site">
+      <a href="#">Home</a>
+      <a href="#">Research</a>
+      <a href="publications.html" class="active" aria-current="page">Publications</a>
+      <a href="people.html">People</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main-content">
+
+  <!-- ============ Hero ============ -->
+  <section class="hero">
+    <div class="container">
+      <p class="eyebrow">University of California, Riverside · Electrical &amp; Computer Engineering</p>
+      <h1>Publications</h1>
+      <p class="lede">Papers from our lab, co-authored by our members. For Prof.&nbsp;Saragadam's complete publication record, see his <a href="https://scholar.google.com/citations?user=u-xGD2AAAAAJ" target="_blank" rel="noopener">Google Scholar profile</a>.</p>
+      <p class="pub-note">Lab members are <span class="lab-member">underlined</span>.</p>
+    </div>
+  </section>
+
+  <!-- ============ List ============ -->
+  <section class="section pubs-wrap" id="papers" style="padding-top:8px">
+    <div class="container">
+
+      <div class="year-block">
+        <h2 class="section-head">2026</h2>
+
+        <!-- ===== CARD ===== -->
+        <article class="pub">
+          <h3 class="pub-title"><a href="https://arxiv.org/abs/2512.05268" target="_blank" rel="noopener">CARD: Correlation Aware Restoration with Diffusion</a></h3>
+          <p class="pub-authors"><span class="lab-member">Niki Nezakati</span>, <span class="lab-member">Arnab Ghosh</span>, Amit K. Roy-Chowdhury, <span class="lab-member">Vishwanath Saragadam</span></p>
+          <div class="pub-meta">
+            <span class="venue conf">CVPR 2026</span>
+            <a class="pub-link" href="https://arxiv.org/abs/2512.05268" target="_blank" rel="noopener">Paper</a>
+          </div>
+        </article>
+
+        <!-- ===== Noise pretraining ===== -->
+        <article class="pub">
+          <h3 class="pub-title"><a href="https://arxiv.org/abs/2603.29034" target="_blank" rel="noopener">The Surprising Effectiveness of Noise Pretraining for Implicit Neural Representations</a></h3>
+          <p class="pub-authors">Kushal Vyas, <span class="lab-member">Alper Kayabasi</span>, Daniel Kim, <span class="lab-member">Vishwanath Saragadam</span>, Ashok Veeraraghavan, Guha Balakrishnan</p>
+          <div class="pub-meta">
+            <span class="venue conf">CVPR 2026</span>
+            <a class="pub-link" href="https://arxiv.org/abs/2603.29034" target="_blank" rel="noopener">Paper</a>
+          </div>
+        </article>
+      </div>
+
+      <div class="year-block">
+        <h2 class="section-head">2025</h2>
+
+        <!-- ===== Bias for Action ===== -->
+        <article class="pub">
+          <h3 class="pub-title"><a href="https://arxiv.org/abs/2501.09277" target="_blank" rel="noopener">Bias for Action: Video Implicit Neural Representations with Bias Modulation</a></h3>
+          <p class="pub-authors"><span class="lab-member">Alper Kayabasi</span>, Anil Kumar Vadathya, Guha Balakrishnan, <span class="lab-member">Vishwanath Saragadam</span></p>
+          <div class="pub-meta">
+            <span class="venue conf">CVPR 2025</span>
+            <a class="pub-link" href="https://arxiv.org/abs/2501.09277" target="_blank" rel="noopener">Paper</a>
+          </div>
+        </article>
+
+        <!-- ===== TDiff ===== -->
+        <article class="pub">
+          <h3 class="pub-title"><a href="https://dl.acm.org/doi/10.1145/3737905.3769286" target="_blank" rel="noopener">TDiff: Thermal Plug-and-Play Prior with Patch-Based Diffusion</a></h3>
+          <p class="pub-authors">Piyush Dashpute, <span class="lab-member">Niki Nezakati</span>, Wolfgang Heidrich, <span class="lab-member">Vishwanath Saragadam</span></p>
+          <div class="pub-meta">
+            <span class="venue conf">HotSense '25</span>
+            <span class="venue-full">ACM International Workshop on Thermal Sensing and Computing</span>
+            <a class="pub-link" href="https://dl.acm.org/doi/10.1145/3737905.3769286" target="_blank" rel="noopener">Paper</a>
+            <a class="pub-link" href="https://arxiv.org/abs/2510.06460" target="_blank" rel="noopener">arXiv</a>
+          </div>
+        </article>
+      </div>
+
+      <!-- To add a paper: copy an <article class="pub"> block above into the right year,
+           update the title, link, authors (wrap lab members in <span class="lab-member">),
+           and set the venue badge: class="venue conf" for peer-reviewed venues,
+           class="venue" for preprints. -->
+
+    </div>
+  </section>
+</main>
+
+<footer class="site-foot">
+  <div class="container">
+    <span>© 2024 – 2026 Computational Optics and Displays · University of California, Riverside</span>
+    <span class="foot-links">
+      <a href="https://www.ucr.edu" target="_blank" rel="noopener">About UCR</a>
+      <a href="https://www.ece.ucr.edu" target="_blank" rel="noopener">ECE Department</a>
+    </span>
+  </div>
+</footer>
+
+</body>
+</html>
