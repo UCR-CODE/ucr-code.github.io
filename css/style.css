@@ -1,11 +1,12 @@
 :root{
-  --ink:#16191f;
-  --muted:#5b6471;
-  --paper:#fcfcfb;
-  --line:#e5e7ea;
-  --accent:#0a3d91;        /* UCR blue, deepened for text use */
-  --gold:#f5a800;          /* UCR gold, used sparingly */
-  --spectrum:linear-gradient(90deg,#6c4ce0 0%,#2f6bdf 28%,#1fa97a 55%,#e8a13a 78%,#d65543 100%);
+  --ink:#e9edf6;           /* primary text on dark */
+  --muted:#97a2b8;         /* secondary text */
+  --paper:#0c0f15;         /* page background */
+  --surface:#141925;       /* raised panels */
+  --line:#262d3b;          /* borders / hairlines */
+  --accent:#8ab0ff;        /* links — light UCR blue for dark bg */
+  --gold:#f5b942;          /* UCR gold, used sparingly */
+  --spectrum:linear-gradient(90deg,#8a6cff 0%,#4d8bff 28%,#2fd49a 55%,#ffc24a 78%,#ff6a52 100%);
   --radius:10px;
   --maxw:1080px;
 }
@@ -22,16 +23,62 @@ a{color:var(--accent);text-decoration:none}
 a:hover{text-decoration:underline;text-underline-offset:3px}
 a:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:2px}
 img{display:block;max-width:100%}
+
+/* ---------- Hyperspectral text selection ----------
+   Selected text is highlighted with a color that sweeps through the
+   full spectrum. The animated custom property --sel is read by ::selection;
+   browsers without @property fall back to stepping through the colors. */
+@property --sel{syntax:"<color>";inherits:true;initial-value:#8a6cff}
+:root{--sel:#8a6cff}
+@keyframes sel-sweep{
+  0%{--sel:#8a6cff}25%{--sel:#4d8bff}50%{--sel:#2fd49a}75%{--sel:#ffc24a}100%{--sel:#ff6a52}
+}
+html{animation:sel-sweep 6s linear infinite alternate}
+::selection{background:var(--sel,#8a6cff);color:#0c0f15;text-shadow:none}
+::-moz-selection{background:var(--sel,#8a6cff);color:#0c0f15;text-shadow:none}
+
+/* Animated hyperspectral gradient text — applied to the hero header,
+   member names, and paper titles. Endpoints share a color for a seamless loop. */
+.spectral{
+  background-image:linear-gradient(90deg,#8a6cff,#4d8bff,#2fd49a,#ffc24a,#ff6a52,#8a6cff);
+  background-size:200% 100%;
+  -webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent;color:transparent;
+  animation:spectral-slide 7s linear infinite}
+@keyframes spectral-slide{from{background-position:0 0}to{background-position:-200% 0}}
+
 .container{max-width:var(--maxw);margin:0 auto;padding:0 24px}
-.skip{position:absolute;left:-9999px;top:0;background:var(--ink);color:#fff;padding:10px 16px;z-index:50}
+.skip{position:absolute;left:-9999px;top:0;background:var(--accent);color:#0c0f15;font-weight:600;padding:10px 16px;z-index:50}
 .skip:focus{left:12px;top:12px}
 
 /* ---------- Header ---------- */
-.site-head{border-bottom:1px solid var(--line);background:rgba(252,252,251,.92);backdrop-filter:blur(6px);position:sticky;top:0;z-index:20}
-.site-head .container{display:flex;align-items:center;justify-content:space-between;gap:20px;height:64px}
-.brand{display:flex;align-items:center;gap:10px;font-weight:600;font-size:17px;letter-spacing:-.01em;color:var(--ink)}
-.brand:hover{text-decoration:none}
+.site-head{border-bottom:1px solid var(--line);background:rgba(12,15,21,.82);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20;transition:box-shadow .3s ease}
+.site-head.scrolled{box-shadow:0 2px 18px rgba(0,0,0,.45)}
+.site-head .container{display:flex;align-items:center;justify-content:space-between;gap:20px;height:112px;transition:height .3s ease}
+.site-head.scrolled .container{height:84px}
+@property --ang{syntax:"<angle>";inherits:false;initial-value:0deg}
+@property --rx{syntax:"<angle>";inherits:false;initial-value:0deg}
+@property --ry{syntax:"<angle>";inherits:false;initial-value:0deg}
+.brand{position:relative;isolation:isolate;display:inline-flex;align-items:center;color:var(--ink);background:transparent;padding:6px 14px;border-radius:12px;
+  transform:perspective(700px) rotateX(var(--rx)) rotateY(var(--ry));
+  transform-style:preserve-3d;animation:iris-in .75s ease-out both;
+  transition:box-shadow .25s,--rx .25s ease,--ry .25s ease;will-change:transform}
+/* crisp rotating spectral ring (conic gradient masked to a 2px border) */
+.brand::before{content:"";position:absolute;inset:-2px;z-index:-1;border-radius:14px;padding:2px;
+  background:conic-gradient(from var(--ang),#8a6cff,#4d8bff,#2fd49a,#ffc24a,#ff6a52,#8a6cff);
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;
+  mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);mask-composite:exclude;
+  animation:ring-spin 6s linear infinite;transition:filter .3s ease}
+/* ring reacts: spins faster + brightens on hover */
+.brand:hover{text-decoration:none;box-shadow:0 0 20px rgba(122,138,255,.4)}
+.brand:hover::before{animation-duration:1.8s;filter:brightness(1.3) saturate(1.25)}
+@keyframes ring-spin{to{--ang:360deg}}
+/* shutter-style iris reveal on load */
+@keyframes iris-in{from{clip-path:circle(0% at 50% 50%);opacity:.15}to{clip-path:circle(150% at 50% 50%);opacity:1}}
 .brand svg{flex:none}
+.brand-logo{height:84px;width:auto;display:block;transition:height .3s ease}
+.site-head.scrolled .brand-logo{height:62px}
+@media (max-width:760px){.brand-logo{height:62px}.site-head.scrolled .brand-logo{height:48px}}
 .main-nav{display:flex;gap:26px;flex-wrap:wrap}
 .main-nav a{color:var(--muted);font-size:14.5px;font-weight:500;padding:4px 0;position:relative}
 .main-nav a:hover{color:var(--ink);text-decoration:none}
@@ -42,7 +89,7 @@ img{display:block;max-width:100%}
 .hero{padding:84px 0 56px}
 .eyebrow{font-size:12px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:18px}
 .hero h1{font-size:clamp(44px,7vw,76px);font-weight:600;letter-spacing:-.025em;line-height:1.02;margin-bottom:22px}
-.lede{font-size:20px;line-height:1.6;color:#373d47;max-width:58ch}
+.lede{font-size:20px;line-height:1.6;color:#c4ccdb;max-width:58ch}
 .jump{display:flex;gap:10px;flex-wrap:wrap;margin-top:34px}
 .jump a{font-size:14px;font-weight:500;color:var(--ink);border:1px solid var(--line);border-radius:999px;padding:8px 18px;transition:border-color .25s,color .25s}
 .jump a:hover{border-color:var(--accent);color:var(--accent);text-decoration:none}
@@ -51,28 +98,54 @@ img{display:block;max-width:100%}
 .section{padding:56px 0}
 .section-head{font-size:13px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:30px;display:flex;align-items:center;gap:14px}
 .section-head::after{content:"";flex:1;height:1px;background:var(--line)}
-hr.spectrum{border:0;height:2px;background:var(--spectrum);opacity:.45;border-radius:2px;margin:0}
+hr.spectrum{border:0;height:2px;background:var(--spectrum);opacity:.6;border-radius:2px;margin:0}
+
+/* ---------- Research topic chips ---------- */
+.chips-intro{font-size:12.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:30px 0 14px}
+.chips{display:flex;flex-wrap:wrap;gap:10px}
+.chip{display:inline-flex;align-items:center;font-size:13.5px;font-weight:500;color:#cdd5e4;background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:999px;padding:7px 15px;transition:border-color .25s,color .25s,background .25s}
+.chip:hover{border-color:var(--accent);color:#fff;background:rgba(138,176,255,.12)}
 
 /* ---------- Overview grid ---------- */
 .people-grid{list-style:none;display:grid;grid-template-columns:repeat(auto-fill,minmax(168px,1fr));gap:30px 26px}
 .person-card{display:block;color:var(--ink)}
 .person-card:hover{text-decoration:none}
 .person-card img{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:var(--radius);border:1px solid var(--line);filter:saturate(.82);transition:filter .35s,transform .35s}
-.person-card:hover img{filter:saturate(1.05);transform:translateY(-2px)}
-.p-name{display:inline;font-size:16.5px;font-weight:600;letter-spacing:-.01em;background-image:var(--spectrum);background-repeat:no-repeat;background-position:0 100%;background-size:0% 2px;transition:background-size .35s}
-.person-card:hover .p-name{background-size:100% 2px}
+.person-card:hover img{filter:saturate(1.05)}
+
+/* ---------- Hyperspectral scan-on-hover (portraits) ----------
+   A spectral line sweeps across the portrait like a pushbroom sensor
+   acquiring a hyperspectral frame. Pure CSS; disabled for reduced motion. */
+.shot{position:relative;display:block;overflow:hidden;border-radius:var(--radius);transition:transform .35s cubic-bezier(.22,.61,.36,1)}
+.shot img{display:block;width:100%}
+.person-card:hover .shot{transform:translateY(-2px)}
+.shot::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:0;border-radius:inherit;
+  background:linear-gradient(100deg,transparent 45%,rgba(138,108,255,.55) 47.5%,rgba(77,139,255,.75) 49%,rgba(47,212,154,.8) 50%,rgba(255,194,74,.75) 51%,rgba(255,106,82,.55) 52.5%,transparent 55%);
+  background-size:240% 100%;background-repeat:no-repeat;background-position:135% 0;
+  mix-blend-mode:screen;transition:opacity .25s ease}
+.person-card:hover .shot::after,.profile-media:hover .shot::after{opacity:1;animation:hyperscan 1.15s cubic-bezier(.4,.02,.25,1)}
+@keyframes hyperscan{from{background-position:135% 0}to{background-position:-35% 0}}
+.p-name{display:inline;font-size:16.5px;font-weight:600;letter-spacing:-.01em;
+  background-image:linear-gradient(90deg,#8a6cff,#4d8bff,#2fd49a,#ffc24a,#ff6a52,#8a6cff);
+  background-size:200% 100%;-webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent;color:transparent;
+  animation:spectral-slide 7s linear infinite}
+.person-card:hover .p-name{filter:brightness(1.18) saturate(1.1)}
 .p-meta{margin-top:12px;line-height:1.45}
 .p-role{display:block;font-size:13px;color:var(--muted);margin-top:3px}
+.member-role{font-size:12.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:0 0 16px}
+.member-role + .people-grid{margin-bottom:40px}
+.people-grid.solo{grid-template-columns:184px}
 
 /* ---------- Join us ---------- */
-.join{background:#f6f7f5;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.join{background:var(--surface);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
 .join h2{font-size:clamp(26px,3.4vw,34px);font-weight:600;letter-spacing:-.015em;margin-bottom:14px}
-.join > .container > p{max-width:62ch;color:#373d47}
+.join > .container > p{max-width:62ch;color:#c4ccdb}
 .join-list{list-style:none;counter-reset:join;display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:34px;margin-top:42px}
 .join-list li{counter-increment:join;border-top:2px solid var(--ink);padding-top:18px;position:relative}
 .join-list li::before{content:counter(join);font-family:"Space Grotesk",sans-serif;font-weight:600;font-size:15px;color:var(--paper);background:var(--ink);width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;position:absolute;top:-15px;left:0}
 .join-list h3{font-size:19px;font-weight:600;letter-spacing:-.01em;margin:10px 0 10px}
-.join-list p{font-size:15px;color:#3c4350}
+.join-list p{font-size:15px;color:#b9c1d2}
 .join-list p + p{margin-top:10px}
 .join-note{font-size:13.5px;color:var(--muted);margin-top:36px;max-width:70ch}
 
@@ -85,7 +158,7 @@ hr.spectrum{border:0;height:2px;background:var(--spectrum);opacity:.45;border-ra
 .links a:hover::after{opacity:.8}
 .profile-body h3{font-size:clamp(26px,3.2vw,32px);font-weight:600;letter-spacing:-.018em;scroll-margin-top:90px}
 .role-tag{display:inline-block;font-size:12px;font-weight:600;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);margin:8px 0 22px;padding-bottom:5px;background-image:var(--spectrum);background-repeat:no-repeat;background-position:0 100%;background-size:44px 2px}
-.profile-body p{max-width:66ch;color:#2c313a}
+.profile-body p{max-width:66ch;color:#c4ccdb}
 .profile-body p + p{margin-top:14px}
 .todo{color:var(--muted)}
 
@@ -99,12 +172,14 @@ hr.spectrum{border:0;height:2px;background:var(--spectrum);opacity:.45;border-ra
 @media (max-width:760px){
   .hero{padding:56px 0 40px}
   .profile{grid-template-columns:1fr;gap:26px;padding:44px 0}
-  .profile-media img{max-width:280px}
+  .profile-media .shot{max-width:280px}
   .site-head .container{height:auto;padding-top:12px;padding-bottom:12px;flex-wrap:wrap}
 }
 @media (prefers-reduced-motion:reduce){
-  html{scroll-behavior:auto}
+  html{scroll-behavior:auto;animation:none!important}
   *,*::before,*::after{transition:none!important}
+  ::selection{background:#8a6cff}
+  ::-moz-selection{background:#8a6cff}
 }
 
 /* ---------- Publications ---------- */
@@ -115,14 +190,70 @@ hr.spectrum{border:0;height:2px;background:var(--spectrum);opacity:.45;border-ra
 .pub{padding:28px 0;border-top:1px solid var(--line)}
 .year-block .pub:first-of-type{border-top:0;padding-top:18px}
 .pub-title{font-size:20px;font-weight:600;letter-spacing:-.012em;line-height:1.35}
-.pub-title a{color:var(--ink);background-image:var(--spectrum);background-repeat:no-repeat;background-position:0 100%;background-size:0% 2px;transition:background-size .35s,color .2s}
-.pub-title a:hover{color:var(--accent);text-decoration:none;background-size:100% 2px}
-.pub-authors{margin-top:9px;font-size:15px;color:#3c4350;max-width:74ch}
-.lab-member{color:var(--ink);font-weight:500;background-image:var(--spectrum);background-repeat:no-repeat;background-position:0 100%;background-size:100% 1.5px;padding-bottom:1px}
+.pub-title a{background-image:linear-gradient(90deg,#8a6cff,#4d8bff,#2fd49a,#ffc24a,#ff6a52,#8a6cff);
+  background-size:200% 100%;-webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent;color:transparent;
+  animation:spectral-slide 7s linear infinite;transition:filter .2s}
+.pub-title a:hover{text-decoration:none;filter:brightness(1.18) saturate(1.1)}
+.pub-authors{margin-top:9px;font-size:15px;color:#b9c1d2;max-width:74ch}
+.lab-member{font-weight:600;padding-bottom:1px;
+  background-image:linear-gradient(90deg,#8a6cff,#4d8bff,#2fd49a,#ffc24a,#ff6a52,#8a6cff);
+  background-size:200% 100%;-webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent;color:transparent;
+  animation:spectral-slide 7s linear infinite}
 .pub-meta{margin-top:12px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
 .venue{font-size:11.5px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;border:1px solid var(--line);border-radius:999px;padding:3.5px 11px;color:var(--muted)}
-.venue.conf{border-color:#ecd9a8;background:#fdf7e7;color:#7a5d10}
+.venue.conf{border-color:rgba(245,185,66,.4);background:rgba(245,185,66,.12);color:#f5c45a}
 .pub-link{font-size:14px;font-weight:500}
 .pub-link::after{content:"↗";font-size:11px;margin-left:5px}
 
 .venue-full{font-size:13px;color:var(--muted)}
+
+/* ---------- Optics & photography themed animations ---------- */
+
+/* Focus-pull reveal — elements resolve from blurred to sharp, like a lens finding focus */
+.js .reveal{opacity:0;filter:blur(9px);transform:scale(1.015) translateY(10px);
+  transition:opacity .75s ease,filter .75s ease,transform .75s cubic-bezier(.22,.61,.36,1)}
+.js .reveal.is-in{opacity:1;filter:blur(0);transform:none}
+.js .reveal[style*="--i"]{transition-delay:calc(var(--i,0)*70ms)}
+
+/* Hero entrance — focus-in stagger on load */
+.hero .eyebrow,.hero .lede,.hero .jump{opacity:0;animation:focus-in .85s cubic-bezier(.22,.61,.36,1) forwards}
+.hero .eyebrow{animation-delay:.05s}
+.hero .lede{animation-delay:.30s}
+.hero .jump{animation-delay:.45s}
+/* Hero header: focus-in on load, then a continuous spectral sweep */
+.hero h1{opacity:0;
+  background-image:linear-gradient(90deg,#8a6cff,#4d8bff,#2fd49a,#ffc24a,#ff6a52,#8a6cff);
+  background-size:200% 100%;-webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent;color:transparent;
+  animation:focus-in .85s cubic-bezier(.22,.61,.36,1) .15s forwards, spectral-slide 8s linear infinite}
+/* CODE initials — emphasized as larger, bolder drop-caps (same swept gradient) */
+.hero h1 .code{font-size:1.32em;font-weight:800;letter-spacing:-.02em;line-height:.9}
+@keyframes focus-in{from{opacity:0;filter:blur(12px);transform:translateY(8px)}to{opacity:1;filter:blur(0);transform:none}}
+
+
+/* Hero optics backdrop: drifting bokeh + slow aperture/lens reticle */
+.hero{position:relative;overflow:hidden}
+.hero > .container{position:relative;z-index:2}
+.optics-bg{position:absolute;inset:0;z-index:1;pointer-events:none;overflow:hidden}
+.optics-bg .bokeh{position:absolute;border-radius:50%;filter:blur(13px);opacity:.22;mix-blend-mode:screen;animation:bokeh-drift linear infinite}
+.optics-bg .bokeh:nth-child(1){width:130px;height:130px;left:6%;top:34%;background:#2f6bdf;animation-duration:28s}
+.optics-bg .bokeh:nth-child(2){width:84px;height:84px;left:80%;top:16%;background:#1fa97a;animation-duration:34s;animation-delay:-7s}
+.optics-bg .bokeh:nth-child(3){width:170px;height:170px;left:60%;top:52%;background:#e8a13a;animation-duration:40s;animation-delay:-14s}
+.optics-bg .bokeh:nth-child(4){width:64px;height:64px;left:30%;top:70%;background:#6c4ce0;animation-duration:31s;animation-delay:-4s}
+@keyframes bokeh-drift{0%{transform:translate(0,0)}25%{transform:translate(20px,-24px)}50%{transform:translate(-14px,16px)}75%{transform:translate(16px,20px)}100%{transform:translate(0,0)}}
+
+.optics-bg .aperture{position:absolute;right:-70px;top:-80px;width:360px;height:360px;opacity:.22;transform-origin:50% 50%;animation:lens-rotate 80s linear infinite}
+@keyframes lens-rotate{to{transform:rotate(360deg)}}
+@media (max-width:760px){.optics-bg .aperture{width:240px;right:-60px;top:-60px}}
+
+@media (prefers-reduced-motion:reduce){
+  .js .reveal{opacity:1!important;filter:none!important;transform:none!important}
+  .hero .eyebrow,.hero h1,.hero .lede,.hero .jump{opacity:1!important;filter:none!important;animation:none!important}
+  .spectral,.p-name,.lab-member,.pub-title a{animation:none!important}
+  .brand,.brand::before,.brand::after{animation:none!important}
+  .brand{transform:none!important}
+  .optics-bg{display:none}
+  .shot::after{display:none}
+}
