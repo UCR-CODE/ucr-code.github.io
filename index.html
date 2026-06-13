@@ -3,11 +3,31 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Computational Optics and Displays – UC Riverside</title>
-<meta name="description" content="The Computational Optics and Displays lab at UC Riverside co-designs optical systems and algorithms to sense, represent, and infer from high-dimensional visual signals.">
+<title>Computational Optics and Displays Engineering (CODE Lab) – UC Riverside</title>
+<meta name="description" content="The Computational Optics and Displays Engineering (CODE Lab) at UC Riverside co-designs optical systems and algorithms to sense, represent, and infer from high-dimensional visual signals.">
+<link rel="canonical" href="https://ucr-code.github.io/">
+<meta name="theme-color" content="#0c0f15">
+<link rel="icon" type="image/svg+xml" href="images/favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32.png">
+<link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+<!-- Open Graph / social cards -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="CODE Lab — UC Riverside">
+<meta property="og:title" content="Computational Optics and Displays Engineering (CODE Lab) – UC Riverside">
+<meta property="og:description" content="The Computational Optics and Displays Engineering (CODE Lab) at UC Riverside co-designs optical systems and algorithms to sense, represent, and infer from high-dimensional visual signals.">
+<meta property="og:url" content="https://ucr-code.github.io/">
+<meta property="og:image" content="https://ucr-code.github.io/images/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="CODE Lab — Computational Optics and Displays Engineering, UC Riverside">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Computational Optics and Displays Engineering (CODE Lab) – UC Riverside">
+<meta name="twitter:description" content="The Computational Optics and Displays Engineering (CODE Lab) at UC Riverside co-designs optical systems and algorithms to sense, represent, and infer from high-dimensional visual signals.">
+<meta name="twitter:image" content="https://ucr-code.github.io/images/og-image.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Public+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<script>document.documentElement.classList.add('js');</script>
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -15,19 +35,8 @@
 
 <header class="site-head">
   <div class="container">
-    <a class="brand" href="index.html">
-      <!-- aperture mark -->
-      <svg width="26" height="26" viewBox="0 0 26 26" fill="none" aria-hidden="true">
-        <defs>
-          <linearGradient id="spec" x1="0" y1="0" x2="26" y2="26" gradientUnits="userSpaceOnUse">
-            <stop offset="0" stop-color="#6c4ce0"/><stop offset=".35" stop-color="#2f6bdf"/>
-            <stop offset=".65" stop-color="#1fa97a"/><stop offset="1" stop-color="#e8a13a"/>
-          </linearGradient>
-        </defs>
-        <circle cx="13" cy="13" r="11.5" stroke="url(#spec)" stroke-width="2.4"/>
-        <circle cx="13" cy="13" r="4.5" fill="var(--ink)"/>
-      </svg>
-      Computational Optics and Displays
+    <a class="brand" href="index.html" aria-label="Computational Optics and Displays Engineering (CODE Lab) — Home">
+      <img src="images/logo.svg" alt="Computational Optics and Displays Engineering (CODE Lab)" class="brand-logo">
     </a>
     <nav class="main-nav" aria-label="Site">
       <a href="index.html" class="active" aria-current="page">Home</a>
@@ -42,9 +51,24 @@
 
   <!-- ============ Hero ============ -->
   <section class="hero">
+    <div class="optics-bg" aria-hidden="true">
+      <span class="bokeh"></span><span class="bokeh"></span><span class="bokeh"></span><span class="bokeh"></span>
+      <svg class="aperture" viewBox="0 0 100 100" fill="none">
+        <defs><linearGradient id="ap-spec" x1="0" y1="0" x2="100" y2="100" gradientUnits="userSpaceOnUse">
+          <stop offset="0" stop-color="#6c4ce0"/><stop offset=".33" stop-color="#2f6bdf"/>
+          <stop offset=".66" stop-color="#1fa97a"/><stop offset="1" stop-color="#e8a13a"/>
+        </linearGradient></defs>
+        <g stroke="url(#ap-spec)" stroke-width="1.1">
+          <circle cx="50" cy="50" r="47" stroke-dasharray="2 6"/>
+          <circle cx="50" cy="50" r="34"/>
+          <circle cx="50" cy="50" r="20"/>
+          <path d="M50 30 L50 16 M70 50 L84 50 M50 70 L50 84 M30 50 L16 50"/>
+        </g>
+      </svg>
+    </div>
     <div class="container">
       <p class="eyebrow">University of California, Riverside · Electrical &amp; Computer Engineering</p>
-      <h1>Computational Optics<br>and Displays</h1>
+      <h1><span class="code">C</span>omputational <span class="code">O</span>ptics and<br><span class="code">D</span>isplays <span class="code">E</span>ngineering</h1>
       <p class="lede">We co-design optical systems and algorithms to sense, represent, and infer from high-dimensional visual signals such as videos, hyperspectral images, and lightfields.</p>
       <nav class="jump" aria-label="Quick links">
         <a href="people.html">Meet the team</a>
@@ -57,16 +81,20 @@
   <!-- ============ Research ============ -->
   <section class="section" id="research">
     <div class="container">
-      <h2 class="section-head">Research</h2>
-      <p style="max-width:66ch">Our work sits at the intersection of optics, meta-materials, algorithms, machine learning, and signal processing. We build next-generation imaging systems by treating the camera and the computation behind it as one design problem — from the physics of light to the priors of deep networks.</p>
+      <h2 class="section-head reveal">Research</h2>
+      <p class="reveal" style="max-width:60ch">We work at the intersection of optics, metamaterials, machine learning, and
+        signal processing, co-designing imaging systems in which the camera and the
+        algorithms behind it are treated as a single problem — from the physics of
+        light to the priors of deep networks.</p>
+      <p class="chips-intro reveal">Focus areas</p>
       <div class="chips" aria-label="Research topics">
-        <span class="chip">Computational imaging</span>
-        <span class="chip">Deep optics &amp; hardware–software co-design</span>
-        <span class="chip">Thermal imaging</span>
-        <span class="chip">Hyperspectral imaging</span>
-        <span class="chip">3D reconstruction</span>
-        <span class="chip">Implicit neural representations</span>
-        <span class="chip">Diffusion models for restoration</span>
+        <span class="chip reveal" style="--i:0">Computational imaging</span>
+        <span class="chip reveal" style="--i:1">Deep optics &amp; co-design</span>
+        <span class="chip reveal" style="--i:2">Hyperspectral imaging</span>
+        <span class="chip reveal" style="--i:3">Thermal imaging</span>
+        <span class="chip reveal" style="--i:4">3D reconstruction</span>
+        <span class="chip reveal" style="--i:5">Implicit neural representations</span>
+        <span class="chip reveal" style="--i:6">Diffusion models</span>
       </div>
     </div>
   </section>
@@ -74,15 +102,15 @@
   <!-- ============ Recent papers ============ -->
   <section class="section" id="recent" style="padding-top:24px">
     <div class="container">
-      <h2 class="section-head">Recent papers</h2>
+      <h2 class="section-head reveal">Recent papers</h2>
 
-      <article class="pub" style="border-top:0;padding-top:10px">
+      <article class="pub reveal" style="border-top:0;padding-top:10px">
         <h3 class="pub-title"><a href="https://arxiv.org/abs/2512.05268" target="_blank" rel="noopener">CARD: Correlation Aware Restoration with Diffusion</a></h3>
         <p class="pub-authors"><span class="lab-member">Niki Nezakati</span>, <span class="lab-member">Arnab Ghosh</span>, Amit K. Roy-Chowdhury, <span class="lab-member">Vishwanath Saragadam</span></p>
         <div class="pub-meta"><span class="venue conf">CVPR 2026</span></div>
       </article>
 
-      <article class="pub">
+      <article class="pub reveal">
         <h3 class="pub-title"><a href="https://arxiv.org/abs/2603.29034" target="_blank" rel="noopener">The Surprising Effectiveness of Noise Pretraining for Implicit Neural Representations</a></h3>
         <p class="pub-authors">Kushal Vyas, <span class="lab-member">Alper Kayabasi</span>, Daniel Kim, <span class="lab-member">Vishwanath Saragadam</span>, Ashok Veeraraghavan, Guha Balakrishnan</p>
         <div class="pub-meta"><span class="venue conf">CVPR 2026</span></div>
@@ -95,7 +123,7 @@
 
 <footer class="site-foot">
   <div class="container">
-    <span>© 2024 – 2026 Computational Optics and Displays · University of California, Riverside</span>
+    <span>© 2024 – 2026 Computational Optics and Displays Engineering (CODE Lab) · University of California, Riverside</span>
     <span class="foot-links">
       <a href="https://www.ucr.edu" target="_blank" rel="noopener">About UCR</a>
       <a href="https://www.ece.ucr.edu" target="_blank" rel="noopener">ECE Department</a>
@@ -103,5 +131,6 @@
   </div>
 </footer>
 
+<script src="js/main.js" defer></script>
 </body>
 </html>
