@@ -34,6 +34,14 @@
 
   revealEls.forEach(function (el) { io.observe(el); });
 
+  // --- Focus-area cards: tap/click toggles the flip (hover handles desktop) ---
+  document.querySelectorAll(".flip-card").forEach(function (card) {
+    card.addEventListener("click", function () {
+      var flipped = card.classList.toggle("is-flipped");
+      card.setAttribute("aria-pressed", flipped ? "true" : "false");
+    });
+  });
+
   // --- Logo: 3D tilt toward the cursor on hover ---
   var brand = document.querySelector(".brand");
   if (brand && !reduceMotion) {
